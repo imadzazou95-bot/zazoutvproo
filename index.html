@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAZOU TV | فوضى الإعلانات</title>
+    <title>ZAZOU TV | التجربة الأصلية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
             --gold: #ffcc00;
+            --gold-bright: #fff5cc;
             --black: #050505;
             --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 204, 0, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Cairo', sans-serif;
@@ -22,96 +28,183 @@
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 10px;
+            justify-content: center;
+            padding: 40px 0;
         }
 
-        /* خلفية */
+        /* خلفية متحركة */
         .hero-bg {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
             background: radial-gradient(circle at 50% 50%, #1a1a00 0%, #050505 100%);
         }
 
-        /* حاوية الإعلان الفوضوية */
-        .ad-chaos {
+        .animated-circles {
+            position: absolute;
             width: 100%;
-            max-width: 100%;
-            margin: 5px 0;
-            display: flex;
-            justify-content: center;
-            background: rgba(255, 0, 0, 0.1); /* تمييز الفوضى */
-            border: 1px dashed red;
+            height: 100%;
+            overflow: hidden;
         }
 
-        /* الحاوية الرئيسية مدموجة مع الإعلانات */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gold);
+            filter: blur(80px);
+            opacity: 0.1;
+            animation: move 20s infinite linear;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100vw, 100vh); }
+        }
+
+        /* الحاوية الرئيسية */
         .main-container {
-            width: 95%;
-            max-width: 900px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 1000px;
+            padding: 60px 40px;
+            backdrop-filter: blur(15px);
             background: var(--glass);
-            border: 1px solid rgba(255, 204, 0, 0.1);
-            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
             text-align: center;
-            z-index: 10;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: fadeIn 1.5s ease;
         }
 
-        .logo-box { margin-bottom: 15px; }
-        .logo-icon { font-size: 50px; color: var(--gold); }
-        .app-name { font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--gold); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .screenshots-section img {
+        /* الشعار */
+        .logo-box {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 70px;
+            color: var(--gold);
+            filter: drop-shadow(0 0 20px var(--gold));
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); filter: drop-shadow(0 0 10px var(--gold)); }
+            to { transform: scale(1.1); filter: drop-shadow(0 0 30px var(--gold)); }
+        }
+
+        .app-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 50px;
+            font-weight: 900;
+            background: linear-gradient(to bottom, var(--gold-bright), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 10px;
+            letter-spacing: 5px;
+        }
+
+        /* الوصف */
+        .description-content {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .description-content h2 {
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .description-content p {
+            font-size: 18px;
+            color: #e0e0e0;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* الصور */
+        .screenshots-section {
+            margin: 40px 0;
+        }
+
+        .screenshots-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .screenshot-card {
+            width: 280px;
+            border-radius: 25px;
+            border: 2px solid var(--glass-border);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .screenshot-card img {
             width: 100%;
-            max-width: 300px;
-            border-radius: 15px;
-            margin: 10px;
+            height: auto;
+            display: block;
         }
 
+        .screenshot-card:hover {
+            transform: scale(1.05);
+            border-color: var(--gold);
+        }
+
+        /* زر التحميل */
         .download-button {
             display: inline-flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
             background: var(--gold);
             color: var(--black);
-            padding: 15px 40px;
-            border-radius: 50px;
+            padding: 20px 60px;
+            border-radius: 100px;
             text-decoration: none;
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 900;
-            margin: 20px 0;
+            transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(255, 204, 0, 0.3);
+            margin-top: 20px;
         }
 
-        /* إعلانات عشوائية تطفو */
-        .floating-ad {
-            position: fixed;
-            z-index: 999;
-            background: black;
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 20px gold;
+        .download-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 204, 0, 0.5);
+            background: #fff;
+        }
+
+        /* الجوال */
+        @media (max-width: 768px) {
+            .app-name { font-size: 35px; }
+            .download-button { padding: 15px 40px; font-size: 20px; width: 100%; justify-content: center; }
+            .screenshot-card { width: 100%; max-width: 300px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="hero-bg"></div>
-
-    <!-- إعلان 1 -->
-    <div class="ad-chaos">
-        <script type="text/javascript">
-            atOptions = { 'key' : '28393758', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/28393758/invoke.js"></script>
-    </div>
-
-    <!-- إعلان 2 (تكرار) -->
-    <div class="ad-chaos">
-        <script type="text/javascript">
-            atOptions = { 'key' : '28393705', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/28393705/invoke.js"></script>
+    <div class="hero-bg">
+        <div class="animated-circles">
+            <div class="circle" style="width: 300px; height: 300px; top: 10%; left: 10%;"></div>
+            <div class="circle" style="width: 400px; height: 400px; bottom: 10%; right: 10%;"></div>
+        </div>
     </div>
 
     <div class="main-container">
@@ -120,75 +213,26 @@
             <h1 class="app-name">ZAZOU TV</h1>
         </div>
 
-        <!-- إعلان داخل الحاوية -->
-        <div class="ad-chaos">
-            <script type="text/javascript">
-                atOptions = { 'key' : '28393758', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/28393758/invoke.js"></script>
-        </div>
-
-        <p>أقوى تطبيق بث مباشر في الوطن العربي</p>
-
-        <!-- إعلان بوبندر مكثف -->
-        <div class="ad-chaos">
-            <script type="text/javascript">
-                atOptions = { 'key' : '28393705', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/28393705/invoke.js"></script>
+        <div class="description-content">
+            <h2>تجربة مشاهدة بلا حدود</h2>
+            <p>استمتع بأقوى القنوات الرياضية والترفيهية بجودة عالية وثبات تام. النسخة الأسطورية من تطبيق ZAZOU TV مصممة خصيصاً لتلبية احتياجاتك.</p>
         </div>
 
         <div class="screenshots-section">
-            <img src="https://f.top4top.io/p_3668x0elu1.jpg" alt="Screen">
-            <!-- إعلان بين الصور -->
-            <div class="ad-chaos">
-                <script type="text/javascript">
-                    atOptions = { 'key' : '28393758', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/28393758/invoke.js"></script>
+            <div class="screenshots-container">
+                <div class="screenshot-card">
+                    <img src="https://f.top4top.io/p_3668x0elu1.jpg" alt="ZAZOU TV Screenshot 1">
+                </div>
+                <div class="screenshot-card">
+                    <img src="https://g.top4top.io/p_3668fucbf2.jpg" alt="ZAZOU TV Screenshot 2">
+                </div>
             </div>
-            <img src="https://g.top4top.io/p_3668fucbf2.jpg" alt="Screen">
-        </div>
-
-        <!-- إعلان قبل الزر -->
-        <div class="ad-chaos">
-            <script type="text/javascript">
-                atOptions = { 'key' : '28393758', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/28393758/invoke.js"></script>
         </div>
 
         <a href="https://www.mediafire.com/file/7pmeqgm7rvwk4lj/zazoutv.apk.apk/file" target="_blank" class="download-button">
-            تحميل الآن
+            <i class="fas fa-download"></i>
+            تحميل التطبيق الآن
         </a>
-
-        <!-- إعلان تحت الزر -->
-        <div class="ad-chaos">
-            <script type="text/javascript">
-                atOptions = { 'key' : '28393705', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/28393705/invoke.js"></script>
-        </div>
-    </div>
-
-    <!-- إعلانات متكررة في الأسفل لخلق فوضى -->
-    <div class="ad-chaos">
-        <script type="text/javascript">
-            atOptions = { 'key' : '28393758', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/28393758/invoke.js"></script>
-    </div>
-    <div class="ad-chaos">
-        <script type="text/javascript">
-            atOptions = { 'key' : '28393705', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/28393705/invoke.js"></script>
-    </div>
-    <div class="ad-chaos">
-        <script type="text/javascript">
-            atOptions = { 'key' : '28393758', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/28393758/invoke.js"></script>
     </div>
 
 </body>
